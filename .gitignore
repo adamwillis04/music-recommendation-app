@@ -40,8 +40,10 @@ yarn-error.*
 /ios
 /android
 
-# API keys
-src/firebase/config.ts
+# environemntal variables
+.env
+
+# firebase services
 google-services.json
 ios/GoogleService-Info.plist
 android/google-services.json
