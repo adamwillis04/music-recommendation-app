@@ -15,7 +15,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function useAuth(): AuthContextType {
   const context = useContext(AuthContext)
-  if (!context) throw new Error("useAuth used outside of AuthProvider container")
+  if (!context) throw new Error("auth context is null")
   return context
 }
 

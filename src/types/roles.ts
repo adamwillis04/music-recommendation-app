@@ -1,1 +1,1 @@
-export type Role = "fan" | "artist" | "venue"
+export type Role = "fan" | "artist" | "venue" | "admin"

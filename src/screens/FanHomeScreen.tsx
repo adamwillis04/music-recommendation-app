@@ -1,10 +1,10 @@
 import React from "react"
 import { View, Text, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { RootStackParamList } from "../navigation/AppNavigator"
+import { FanStackParamList } from "../navigation/FanNavigator"
 import { useAuth } from "../contexts/AuthContext"
 
-type Props = NativeStackScreenProps<RootStackParamList, "FanHome">
+type Props = NativeStackScreenProps<FanStackParamList, "FanHome">
 
 export default function FanHomeScreen({ navigation }: Props) {
   const { currentUser } = useAuth()

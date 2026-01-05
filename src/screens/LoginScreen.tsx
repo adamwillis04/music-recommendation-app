@@ -1,14 +1,13 @@
 import React, { useState } from "react"
 import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { RootStackParamList } from "../navigation/AppNavigator"
+import { AuthStackParamList } from "../navigation/AuthNavigator"
 import { useAuth } from "../contexts/AuthContext"
 
-type Props = NativeStackScreenProps<RootStackParamList, "Login">
+type Props = NativeStackScreenProps<AuthStackParamList, "Login">
 
 export default function LoginScreen({ navigation }: Props) {
   const { login } = useAuth()
-
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -18,7 +17,7 @@ export default function LoginScreen({ navigation }: Props) {
       Alert.alert("Error", "Please fill all fields")
       return
     }
-
+    
     try {
       setLoading(true)
       await login(email, password)

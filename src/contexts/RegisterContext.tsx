@@ -27,7 +27,7 @@ const RegisterContext = createContext<RegisterContextType | null>(null)
 
 export function useRegister() {
     const context = useContext(RegisterContext)
-    if (!context) throw new Error("useRegister used outside of RegisterProvider container")
+    if (!context) throw new Error("register context is null")
     return context
 }
 

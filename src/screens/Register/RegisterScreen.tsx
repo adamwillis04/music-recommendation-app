@@ -1,14 +1,14 @@
 import React, { useState } from "react"
 import { View, Button, Alert, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { RootStackParamList } from "../../navigation/AppNavigator"
+import { AuthStackParamList } from "../../navigation/AuthNavigator"
 import { useAuth } from "../../contexts/AuthContext"
 import RegisterNavigator from "./RegisterNavigator"
 import { useRegister } from "../../contexts/RegisterContext"
 import { doc, serverTimestamp, setDoc } from "firebase/firestore"
 import { db } from "../../services/config"
 
-type Props = NativeStackScreenProps<RootStackParamList, "Register">
+type Props = NativeStackScreenProps<AuthStackParamList, "Register">
 
 export default function RegisterScreen({ navigation }: Props) {
   const { signUp } = useAuth()

@@ -1,9 +1,9 @@
 import React from "react"
 import { View, Text, Button, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { RootStackParamList } from "../navigation/AppNavigator"
+import { AuthStackParamList } from "../navigation/AuthNavigator"
 
-type Props = NativeStackScreenProps<RootStackParamList, "Landing">
+type Props = NativeStackScreenProps<AuthStackParamList, "Landing">
 
 export default function LandingScreen({ navigation }: Props) {
   return (
