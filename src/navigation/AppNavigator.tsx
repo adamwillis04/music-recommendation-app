@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native"
 
 import LandingScreen from "../screens/LandingScreen"
 import LoginScreen from "../screens/LoginScreen"
-import RegisterScreen from "../screens/RegisterScreen"
+import RegisterScreen from "../screens/Register/RegisterScreen"
 import FanHomeScreen from "../screens/FanHomeScreen"
 import { useAuth } from "../contexts/AuthContext"
 
