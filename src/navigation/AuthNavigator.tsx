@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import LandingScreen from "../screens/LandingScreen"
 import LoginScreen from "../screens/LoginScreen"
 import { RegisterProvider } from "../contexts/RegisterContext"
-import RegisterScreen from "../screens/Register/RegisterScreen"
+import RegisterScreen from "../screens/RegisterScreens/RegisterScreen"
 
 export type AuthStackParamList = {
   Landing: undefined
