@@ -7,6 +7,7 @@ import RegisterNavigator from "./RegisterNavigator"
 import { useRegister } from "../../contexts/RegisterContext"
 import { doc, serverTimestamp, setDoc } from "firebase/firestore"
 import { db } from "../../services/config"
+import Header, { HEADER_HEIGHT } from "../../components/Header"
 
 type Props = NativeStackScreenProps<AuthStackParamList, "Register">
 
@@ -67,6 +68,10 @@ export default function RegisterScreen({ navigation }: Props) {
 
   return (
     <View style={styles.container}>
+      <Header 
+        title="Register"
+        onBack={() => navigation.navigate("Landing")}
+      />
 
       <RegisterNavigator />
       
@@ -79,7 +84,6 @@ export default function RegisterScreen({ navigation }: Props) {
         title="Already have an account? Login"
         onPress={() => navigation.navigate("Login")}
       />
-
     </View>
   )
 }
@@ -87,7 +91,9 @@ export default function RegisterScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+    alignContent: "center",
+    paddingTop: HEADER_HEIGHT,
+    paddingBottom: HEADER_HEIGHT
+  },
 })

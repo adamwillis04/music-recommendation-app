@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AuthStackParamList } from "../navigation/AuthNavigator"
 import { useAuth } from "../contexts/AuthContext"
+import Header, { HEADER_HEIGHT } from "../components/Header"
 
 type Props = NativeStackScreenProps<AuthStackParamList, "Login">
 
@@ -30,7 +31,10 @@ export default function LoginScreen({ navigation }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text>Login</Text>
+      <Header 
+        title="Login"
+        onBack={() => navigation.navigate("Landing")}
+      />
 
       <TextInput
         placeholder="Email"
@@ -63,7 +67,8 @@ export default function LoginScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+    alignContent: "center",
+    paddingTop: HEADER_HEIGHT,
+  },
 })

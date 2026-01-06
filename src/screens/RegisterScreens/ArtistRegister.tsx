@@ -17,7 +17,11 @@ export default function ArtistRegister() {
 
   return (
     <>
-      <ArtistPicker artist={ form.artist ?? null } onSelect={artist => updateForm({ artist })}/>
+      <ArtistPicker 
+        artist={ form.artist ?? null } 
+        onSelect={artist => updateForm({ artist })}
+        showVerified={false}
+      />
 
       <Picker 
         selectedValue={form.verMethod}
