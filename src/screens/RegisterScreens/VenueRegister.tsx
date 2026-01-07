@@ -1,9 +1,8 @@
 import React, { useCallback } from "react"
 import { useFocusEffect } from "@react-navigation/native"
 import { TextInput, StyleSheet } from "react-native"
-import { Picker } from "@react-native-picker/picker"
 import { useRegister } from "../../contexts/RegisterContext"
-import { VERIFICATION_METHODS } from "../../types/verification"
+import VerMethodPicker from "../../components/VerMethodPicker"
 
 export default function VenueRegister() {
   const { form, updateForm } = useRegister()
@@ -22,20 +21,16 @@ export default function VenueRegister() {
         onChangeText={venue => updateForm({ venue })}
       />
 
-      <Picker 
-        selectedValue={form.verMethod}
-        onValueChange={(value) => updateForm({ verMethod: value })
-      }>
-        <Picker.Item label="Verification Method" value={undefined} />
-      
-        {VERIFICATION_METHODS.map(method => (
-          <Picker.Item
-            key={method.value}
-            label={method.label}
-            value={method.value}
-          />
-        ))}
-      </Picker>
+      <TextInput
+        placeholder="Venue Address"
+        value={form.venueAdd}
+        onChangeText={venueAdd => updateForm({ venueAdd })}
+      />
+
+      <VerMethodPicker 
+        verMethod={ form.verMethod ?? null}
+        onSelect={verMethod => updateForm({ verMethod })}
+      />
 
       <TextInput
         placeholder="Email"

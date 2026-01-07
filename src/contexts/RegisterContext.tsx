@@ -15,6 +15,7 @@ interface RegisterData {
     //Artist / Venue
     artist?: Artist
     venue?: string
+    venueAdd?: string
     verMethod?: VerificationMethod
 }
 

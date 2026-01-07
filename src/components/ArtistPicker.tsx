@@ -116,13 +116,11 @@ const styles = StyleSheet.create({
     left: 10,
     right: 10,
     backgroundColor: colors.white,
-    borderWidth: 1,
     borderRadius: 10,
     zIndex: 10, 
     maxHeight: 200, 
   },
   item: {
     padding: 10,
-    borderBottomWidth: 1,
   },
 });

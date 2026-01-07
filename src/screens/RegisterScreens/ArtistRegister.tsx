@@ -1,10 +1,9 @@
 import React, { useCallback } from "react"
 import { TextInput, StyleSheet } from "react-native"
-import { Picker } from "@react-native-picker/picker"
 import { useFocusEffect } from "@react-navigation/native"
 import { useRegister } from "../../contexts/RegisterContext"
-import { VERIFICATION_METHODS } from "../../types/verification"
 import ArtistPicker from "../../components/ArtistPicker"
+import VerMethodPicker from "../../components/VerMethodPicker"
 
 export default function ArtistRegister() {
   const { form, updateForm } = useRegister()
@@ -23,20 +22,10 @@ export default function ArtistRegister() {
         showVerified={false}
       />
 
-      <Picker 
-        selectedValue={form.verMethod}
-        onValueChange={(value) => updateForm({ verMethod: value })
-      }>
-        <Picker.Item label="Verification Method" value={undefined} />
-      
-        {VERIFICATION_METHODS.map(method => (
-          <Picker.Item
-            key={method.value}
-            label={method.label}
-            value={method.value}
-          />
-        ))}
-      </Picker>
+      <VerMethodPicker 
+        verMethod={ form.verMethod ?? null }
+        onSelect={verMethod => updateForm({ verMethod })}
+      />
 
       <TextInput
         placeholder="Email"

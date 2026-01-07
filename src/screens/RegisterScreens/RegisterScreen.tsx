@@ -28,7 +28,7 @@ export default function RegisterScreen({ navigation }: Props) {
       return
     }
 
-    if (form.role==="venue" && (!form.venue || !form.verMethod) ) {
+    if (form.role==="venue" && (!form.venue || !form.venueAdd || !form.verMethod) ) {
       Alert.alert("Error", "Please fill all fields")
       return
     }
@@ -54,6 +54,7 @@ export default function RegisterScreen({ navigation }: Props) {
 
         //Venue
         venue: form.venue ?? null,
+        venueAdd: form.venueAdd ?? null,
 
         //Verification
         verMethod: form.verMethod ?? null,
