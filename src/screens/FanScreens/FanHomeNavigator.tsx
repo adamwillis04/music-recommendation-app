@@ -14,8 +14,8 @@ export default function FanHomeNavigator() {
       tabBarLabelStyle: styles.label,
       tabBarIndicatorStyle: styles.indicator
     }}>
-      <Tab.Screen name="Liked Artists" component={LikedArtists} />
-      <Tab.Screen name="Liked Venues" component={LikedVenues} />
+      <Tab.Screen name="Artists" component={LikedArtists} />
+      <Tab.Screen name="Venues" component={LikedVenues} />
     </Tab.Navigator>
   )
 }

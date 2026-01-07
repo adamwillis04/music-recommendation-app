@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     width: "100%",
     position: "relative",
     padding: 10,
+    paddingTop: 20,
   },
   input: {
     height: 60,

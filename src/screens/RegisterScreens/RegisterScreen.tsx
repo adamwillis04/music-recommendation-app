@@ -18,7 +18,7 @@ export default function RegisterScreen({ navigation }: Props) {
 
   const handleRegister = async () => {
 
-    if (form.role==="fan" && (!form.username || !form.artistCode) ) {
+    if (form.role==="fan" && (!form.username) ) {
       Alert.alert("Error", "Please fill all fields")
       return
     }

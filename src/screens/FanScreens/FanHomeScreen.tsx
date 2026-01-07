@@ -1,5 +1,5 @@
 import React from "react"
-import { View, StyleSheet } from "react-native"
+import { View, StyleSheet, FlatList } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { FanStackParamList } from "../../navigation/FanNavigator"
 import { useProfile } from "../../contexts/ProfileContext"
@@ -10,12 +10,10 @@ import FanHomeNavigator from "./FanHomeNavigator"
 type Props = NativeStackScreenProps<FanStackParamList, "FanHome">
 
 export default function FanHomeScreen({ navigation }: Props) {
-  const { profile } = useProfile()
+  const { profile, likedArtists } = useProfile()
 
   // handleArtistCode (if there is one) (remove to null once used)
 
-  // artist search / venue search 
-  // show saved artists / venues 
   return (
     <View style={styles.container}>
       <Header

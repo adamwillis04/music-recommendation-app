@@ -3,13 +3,14 @@ import { getDoc, doc, collection, onSnapshot, setDoc, serverTimestamp, deleteDoc
 import { Profile } from "../types/profile"
 import { useAuth } from "./AuthContext"
 import { db } from "../services/config"
+import { Artist } from "../types/artist"
 
 interface ProfileContextType {
   profile: Profile | null
   loading: boolean
-  likedArtists: Set<string>
-  like: (mbid: string) => Promise<void>
-  unlike: (mbid: string) => Promise<void>
+  likedArtists: Artist[] 
+  like: (artist: Artist) => Promise<void>
+  unlike: (artist: Artist) => Promise<void>
 }
 
 const ProfileContext = createContext<ProfileContextType | null>(null)
@@ -27,13 +28,13 @@ interface Props {
 export const ProfileProvider: React.FC<Props> = ({ children }) => {
   const { currentUser } = useAuth()
   const [profile, setProfile] = useState<Profile | null>(null)
-  const [likedArtists, setLikedArtists] = useState<Set<string>>(new Set())
+  const [likedArtists, setLikedArtists] = useState<Artist[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (!currentUser) {
         setProfile(null)
-        setLikedArtists(new Set())
+        setLikedArtists([])
         setLoading(false)
         return
     }
@@ -50,37 +51,48 @@ export const ProfileProvider: React.FC<Props> = ({ children }) => {
     const likedRef = collection(db, "users", currentUser.uid, "likedArtists")
 
     const unsubscribe = onSnapshot(likedRef, (snapshot) => {
-      const set = new Set<string>()
-      snapshot.forEach(doc => set.add(doc.id))
-      setLikedArtists(set)
+      const artists: Artist[] = []
+      snapshot.forEach(doc => {
+        artists.push({
+          mbid: doc.id,
+          ...(doc.data() as Omit<Artist, "mbid">)})
+        })
+      setLikedArtists(artists)
       setLoading(false)
     })
 
     return unsubscribe
   }, [currentUser])
 
-  const like = async (mbid: string) => {
+  const like = async (artist: Artist) => {
     if (!currentUser) return
-
-    setLikedArtists(prev => new Set(prev).add(mbid))
-
+  
+    setLikedArtists(prev => {
+      if (prev.some(a => a.mbid === artist.mbid)) return prev
+      return [...prev, artist]
+    })
+  
     await setDoc(
-      doc(db, "users", currentUser.uid, "likedArtists", mbid),
-      { likedAt: serverTimestamp() }
+      doc(db, "users", currentUser.uid, "likedArtists", artist.mbid),
+      {
+        name: artist.name,
+        verified: artist.verified,
+        country: artist.country,
+        tags: artist.tags,
+        likedAt: serverTimestamp(),
+      }
     )
   }
 
-  const unlike = async (mbid: string) => {
+  const unlike = async (artist: Artist) => {
     if (!currentUser) return
-
-    setLikedArtists(prev => {
-      const next = new Set(prev)
-      next.delete(mbid)
-      return next
-    })
-
+  
+    setLikedArtists(prev =>
+      prev.filter(a => a.mbid !== artist.mbid)
+    )
+  
     await deleteDoc(
-      doc(db, "users", currentUser.uid, "likedArtists", mbid)
+      doc(db, "users", currentUser.uid, "likedArtists", artist.mbid)
     )
   }
 

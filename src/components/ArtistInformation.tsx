@@ -13,10 +13,9 @@ type Props = {
 
 export default function ArtistInformation({ artist }: Props) {
   const { likedArtists, like, unlike} = useProfile()
-  const liked = likedArtists.has(artist.mbid)
+  const liked = likedArtists.some(liked => liked.mbid === artist.mbid)
   const infoString = artist.country + " | " + artist.tags.slice(0,3).join(", ")
 
-  //divider with shadow like the tab navigators (make sure same height and pos as well?)
   return (
     <View style={styles.container}>
 
@@ -38,7 +37,7 @@ export default function ArtistInformation({ artist }: Props) {
         </View>
 
         <TouchableOpacity
-          onPress={() => (liked ? unlike(artist.mbid) : like(artist.mbid))}
+          onPress={() => (liked ? unlike(artist) : like(artist))}
           style={styles.rightButton}
         >
           <Heart size={30} color={colors.primary} fill={liked ? colors.primary : "none"}/>
