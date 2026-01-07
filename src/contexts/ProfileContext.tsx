@@ -11,6 +11,7 @@ interface ProfileContextType {
   likedArtists: Artist[] 
   like: (artist: Artist) => Promise<void>
   unlike: (artist: Artist) => Promise<void>
+  updateProfile: (updates: any) => void
 }
 
 const ProfileContext = createContext<ProfileContextType | null>(null)
@@ -96,12 +97,17 @@ export const ProfileProvider: React.FC<Props> = ({ children }) => {
     )
   }
 
+  const updateProfile = (updates: any) => {
+    setProfile((prev) => ({ ...prev, ...updates }));
+  };
+
   const value: ProfileContextType = {
     profile,
     loading,
     likedArtists,
     like,
-    unlike
+    unlike,
+    updateProfile
   }
 
   return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
