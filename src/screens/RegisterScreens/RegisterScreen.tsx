@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View, Button, Alert, StyleSheet } from "react-native"
+import { View, Button, Alert, StyleSheet, TouchableOpacity, Text } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { AuthStackParamList } from "../../navigation/AuthNavigator"
 import { useAuth } from "../../contexts/AuthContext"
@@ -8,6 +8,7 @@ import { useRegister } from "../../contexts/RegisterContext"
 import { doc, serverTimestamp, setDoc } from "firebase/firestore"
 import { db } from "../../services/config"
 import Header, { HEADER_HEIGHT } from "../../components/Header"
+import { colors } from "../../styles/colors"
 
 type Props = NativeStackScreenProps<AuthStackParamList, "Register">
 
@@ -75,16 +76,10 @@ export default function RegisterScreen({ navigation }: Props) {
       />
 
       <RegisterNavigator />
-      
-      <Button
-        title={loading ? "Loading..." : "Register"}
-        onPress={handleRegister}
-      />
-      
-      <Button
-        title="Already have an account? Login"
-        onPress={() => navigation.navigate("Login")}
-      />
+
+      <TouchableOpacity onPress={handleRegister} style={styles.button} >
+        <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -95,6 +90,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     paddingTop: HEADER_HEIGHT,
-    paddingBottom: HEADER_HEIGHT
   },
+  button: {
+    backgroundColor: colors.primary,
+    borderRadius: 10,
+    elevation: 4,
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    padding: 10,
+    marginHorizontal: 24,
+    marginVertical: 36
+  },
+  buttonText: { fontSize: 20, fontWeight: "500", color: colors.white, textAlign: "center", }, 
 })

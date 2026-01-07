@@ -19,6 +19,7 @@ export default function LikedArtists() {
         onSelect={pickedArtist => navigation.navigate("FanArtist", {artist: pickedArtist})}
         showVerified={true}
         isSearch={true}
+        placeholder="Search for artists..."
       />
 
       <View style={styles.divider} />
@@ -85,5 +86,5 @@ const styles = StyleSheet.create({
   rightButton: { width: 40, alignItems: "flex-end", },
   titleContainer: { flex: 1, alignItems: "center", justifyContent: "center", },
   title: { fontSize: 20, fontWeight: "500", color: colors.primary, textAlign: "center", },
-  divider: {  height: 3, backgroundColor: colors.primary, margin: 10,}
+  divider: { height: 3, backgroundColor: colors.primary, margin: 10, }
 })

@@ -4,16 +4,17 @@ import { collection, query, where, getDocs, limit } from "firebase/firestore"
 import { db } from "../services/config"
 import { Artist } from "../types/artist"
 import { colors } from "../styles/colors"
-import { X } from "lucide-react-native"
+import { Search, X } from "lucide-react-native"
 
 interface Props {
   artist?: Artist | null
   onSelect: (artist?: Artist) => void
   showVerified: boolean
   isSearch: boolean
+  placeholder: string
 }
 
-export default function ArtistPicker({ artist, onSelect, showVerified, isSearch }: Props) {
+export default function ArtistPicker({ artist, onSelect, showVerified, isSearch, placeholder }: Props) {
   const [searchStr, setSearchStr] = useState("")
   const [results, setResults] = useState<Artist[]>([])
 
@@ -48,13 +49,13 @@ export default function ArtistPicker({ artist, onSelect, showVerified, isSearch 
   return (
     <View style={styles.container}>
       <TextInput
-        placeholder="Search Artists"
+        placeholder={placeholder}
         value={searchStr}
         onChangeText={text => {setSearchStr(text)}}
         style={styles.input}
       />
 
-      {artist && (
+      {artist ? (
       <TouchableOpacity
           onPress={() => {
             setSearchStr("")
@@ -63,6 +64,8 @@ export default function ArtistPicker({ artist, onSelect, showVerified, isSearch 
           style={styles.clearButton}>
           <X size={30} color={colors.black} />
       </TouchableOpacity>
+      ) : (
+        <Search style={styles.clearButton} size={30} color={colors.black} />
       )}
 
       {!artist && results.length > 0 && (
@@ -99,7 +102,7 @@ const styles = StyleSheet.create({
     width: "100%",
     position: "relative",
     padding: 10,
-    paddingTop: 20,
+    marginTop: 10,
   },
   input: {
     height: 60,

@@ -2,6 +2,7 @@ import React, { useCallback } from "react"
 import { TextInput, StyleSheet } from "react-native"
 import { useFocusEffect } from "@react-navigation/native"
 import { useRegister } from "../../contexts/RegisterContext"
+import { colors } from "../../styles/colors"
 
 export default function FanRegister() {
   const { form, updateForm } = useRegister()
@@ -15,41 +16,54 @@ export default function FanRegister() {
   return (
     <>
       <TextInput
-        placeholder="Username"
+        placeholder="Username *"
+        placeholderTextColor={colors.black}
         autoCapitalize="none"
         value={form.username}
         onChangeText={username => updateForm({ username })}
+        style={[styles.input, {marginTop: 20}]}
       />
 
       <TextInput
-        placeholder="Artist Code"
+        placeholder="Sign-Up Reward Code"
+        placeholderTextColor={colors.black}
         autoCapitalize="none"
         value={form.artistCode}
         onChangeText={artistCode => updateForm({ artistCode })}
+        style={styles.input}
       />
 
       <TextInput
-        placeholder="Email"
+        placeholder="Email *"
+        placeholderTextColor={colors.black}
         autoCapitalize="none"
         keyboardType="email-address"
         value={form.email}
         onChangeText={email => updateForm({ email })}
+        style={styles.input}
       />
 
       <TextInput
-        placeholder="Password"
+        placeholder="Password *"
+        placeholderTextColor={colors.black}
         secureTextEntry
         value={form.password}
         onChangeText={password => updateForm({ password })}
+        style={styles.input}
       />
     </>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    justifyContent: "center"
-  }
+  input: {
+    borderRadius: 10,
+    padding: 10,
+    margin: 10,
+    fontSize: 18,
+    borderBottomWidth: 3,
+    borderBottomColor: colors.primary,
+    color: colors.black,
+    backgroundColor: colors.white
+  },
 })

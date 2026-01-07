@@ -19,7 +19,7 @@ export default function VerMethodPicker({ verMethod, onSelect }: Props) {
         onPress={() => setShowDropdown(prev => !prev)}
       >
         <TextInput
-          placeholder="Choose Verification Method"
+          placeholder="Choose Verification Method *"
           value={VERIFICATION_METHODS.find(method => method.value === verMethod)?.label ?? ""}
           editable={false}
           pointerEvents="none"
