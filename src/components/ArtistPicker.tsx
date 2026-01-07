@@ -76,11 +76,10 @@ export default function ArtistPicker({ artist, onSelect, showVerified, isSearch 
                 onPress={() => {
                   if (isSearch) {
                     setSearchStr("")
-                    setResults([])
                   } else {
                     setSearchStr(item.name)
-                    setResults([])
                   }
+                  setResults([])
                   onSelect(item)
                 }}
                 style={styles.item}
