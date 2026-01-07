@@ -20,6 +20,7 @@ export default function ArtistRegister() {
         artist={ form.artist ?? null } 
         onSelect={artist => updateForm({ artist })}
         showVerified={false}
+        isSearch={false}
       />
 
       <VerMethodPicker 

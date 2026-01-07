@@ -10,9 +10,10 @@ interface Props {
   artist?: Artist | null
   onSelect: (artist?: Artist) => void
   showVerified: boolean
+  isSearch: boolean
 }
 
-export default function ArtistPicker({ artist, onSelect, showVerified }: Props) {
+export default function ArtistPicker({ artist, onSelect, showVerified, isSearch }: Props) {
   const [searchStr, setSearchStr] = useState("")
   const [results, setResults] = useState<Artist[]>([])
 
@@ -73,9 +74,14 @@ export default function ArtistPicker({ artist, onSelect, showVerified }: Props) 
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => {
+                  if (isSearch) {
+                    setSearchStr("")
+                    setResults([])
+                  } else {
+                    setSearchStr(item.name)
+                    setResults([])
+                  }
                   onSelect(item)
-                  setSearchStr(item.name)
-                  setResults([])
                 }}
                 style={styles.item}
               >

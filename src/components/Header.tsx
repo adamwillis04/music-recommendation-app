@@ -21,7 +21,16 @@ export default function Header({ title, onBack, onProfile }: Props) {
         <View style={styles.leftButton} />
       )}
 
-      <Text style={styles.title}>{title}</Text>
+      <View style={styles.titleContainer}>
+        <Text
+          style={styles.title}
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.2}
+        >
+          {title}
+        </Text>
+      </View>
 
       {onProfile ? (
         <TouchableOpacity onPress={onProfile} style={styles.rightButton}>
@@ -58,6 +67,7 @@ const styles = StyleSheet.create({
     zIndex: 1000,
   },
   leftButton: { width: 40, alignItems: "flex-start" },
+  titleContainer: { flex: 1, alignItems: "center", justifyContent: "center"},
   title: { fontSize: 30, fontWeight: "700", color: colors.white },
   rightButton: { width: 40, alignItems: "flex-end" },
 })

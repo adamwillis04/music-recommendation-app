@@ -1,5 +1,5 @@
 import React from "react"
-import { View, Text, StyleSheet } from "react-native"
+import { View, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { FanStackParamList } from "../../navigation/FanNavigator"
 import { useProfile } from "../../contexts/ProfileContext"
