@@ -3,6 +3,7 @@ import { View, ActivityIndicator } from "react-native"
 import { useProfile } from "../contexts/ProfileContext"
 import AuthNavigator from "./AuthNavigator"
 import FanNavigator from "./FanNavigator"
+import { colors } from "../styles/colors"
 
 export default function RoleNavigator() {
     const { profile, loading } = useProfile()
@@ -10,7 +11,7 @@ export default function RoleNavigator() {
     if (loading) {
         return (
           <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="large" color={colors.primary} />
           </View>
         )
     }

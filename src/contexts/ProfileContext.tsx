@@ -4,6 +4,7 @@ import { Profile } from "../types/profile"
 import { useAuth } from "./AuthContext"
 import { db } from "../services/config"
 import { Artist } from "../types/artist"
+import * as Location from "expo-location"
 
 interface ProfileContextType {
   profile: Profile | null
@@ -12,6 +13,7 @@ interface ProfileContextType {
   like: (artist: Artist) => Promise<void>
   unlike: (artist: Artist) => Promise<void>
   updateProfile: (updates: any) => void
+  getCurrentLocation: () => Promise<{lat: number, lng: number} | null>
 }
 
 const ProfileContext = createContext<ProfileContextType | null>(null)
@@ -101,13 +103,21 @@ export const ProfileProvider: React.FC<Props> = ({ children }) => {
     setProfile((prev) => ({ ...prev, ...updates }));
   };
 
+  const getCurrentLocation = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') return null;
+    const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+    return { lat: loc.coords.latitude, lng: loc.coords.longitude };
+  };
+
   const value: ProfileContextType = {
     profile,
     loading,
     likedArtists,
     like,
     unlike,
-    updateProfile
+    updateProfile,
+    getCurrentLocation
   }
 
   return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>

@@ -15,7 +15,7 @@ export default function FanArtistScreen({ navigation, route }: Props) {
     return (
         <View style={styles.container}>
             <Header 
-                title=""
+                title="MusicShare"
                 onBack={() => navigation.navigate("FanHome")}
                 onProfile={() => navigation.navigate("FanProfile")}
             />
@@ -30,7 +30,12 @@ export default function FanArtistScreen({ navigation, route }: Props) {
             <Text>Data and Visualisations</Text>
 
             <ScanFAB 
-                onPress={() => navigation.navigate("Scan")}
+                onPress={
+                    () => navigation.navigate(
+                        "Recommendations", 
+                        {initialTab: "Share", artist: artist}
+                    )
+                }
             />
         </View>
     )

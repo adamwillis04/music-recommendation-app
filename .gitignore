@@ -40,7 +40,7 @@ yarn-error.*
 /ios
 /android
 
-# environemntal variables
+# environmental variables
 .env
 
 # firebase services

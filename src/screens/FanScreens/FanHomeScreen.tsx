@@ -1,19 +1,15 @@
 import React from "react"
-import { View, StyleSheet, FlatList } from "react-native"
+import { View, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { FanStackParamList } from "../../navigation/FanNavigator"
-import { useProfile } from "../../contexts/ProfileContext"
 import Header, { HEADER_HEIGHT } from "../../components/Header"
 import ScanFAB from "../../components/ScanFAB"
 import FanHomeNavigator from "./FanHomeNavigator"
 
 type Props = NativeStackScreenProps<FanStackParamList, "FanHome">
 
+// handleArtistCode (if there is one) (remove to null once used)
 export default function FanHomeScreen({ navigation }: Props) {
-  const { profile, likedArtists } = useProfile()
-
-  // handleArtistCode (if there is one) (remove to null once used)
-
   return (
     <View style={styles.container}>
       <Header
@@ -24,7 +20,11 @@ export default function FanHomeScreen({ navigation }: Props) {
       <FanHomeNavigator />
 
       <ScanFAB
-        onPress={() => navigation.navigate("Scan")}
+        onPress={() => 
+          navigation.navigate(
+            "Recommendations",
+            {initialTab: "Scan"}
+          )}
       />
     </View>
   )

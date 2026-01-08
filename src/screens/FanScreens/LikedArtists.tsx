@@ -6,7 +6,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FanStackParamList } from "../../navigation/FanNavigator";
 import { useProfile } from "../../contexts/ProfileContext";
 import { colors } from "../../styles/colors";
-import ArtistInformation from "../../components/ArtistInformation";
 import { Heart, Verified } from "lucide-react-native";
 
 export default function LikedArtists() {
@@ -59,8 +58,9 @@ export default function LikedArtists() {
           </TouchableOpacity>
         )}
       />
-</View>
-)}
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {

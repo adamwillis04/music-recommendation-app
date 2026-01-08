@@ -3,17 +3,20 @@ import { FanStackParamList } from "../../navigation/FanNavigator";
 import { View } from "react-native";
 import Header, { HEADER_HEIGHT } from "../../components/Header";
 import { StyleSheet } from "react-native";
+import RecommendationScreenNavigator from "./RecommendationScreenNavigator";
 
-type Props = NativeStackScreenProps<FanStackParamList, "Scan">
+type Props = NativeStackScreenProps<FanStackParamList, "Recommendations">
 
-export default function ScanScreen({ navigation }: Props) {
+export default function RecommendationScreen({ navigation, route }: Props) {
   return (
     <View style={styles.container}>
       <Header
-        title="Scan"
+        title="Recommendations"
         onBack={() => navigation.goBack()}
         onProfile={() => navigation.navigate("FanProfile")}
       />
+
+      <RecommendationScreenNavigator route={route}/>
     </View>
   )
 }
