@@ -4,6 +4,8 @@ import { useProfile } from "../../contexts/ProfileContext";
 import { useState } from "react";
 import { httpsCallable } from "firebase/functions";
 import { functions } from "../../services/config";
+import QRCode from "react-native-qrcode-svg"
+import { colors } from "../../styles/colors";
 
 type Props = {
   artist?: Artist | undefined;
@@ -28,7 +30,6 @@ export default function ShareQRCode({ artist }: Props) {
       });
 
       const jwtToken = result.data as string;
-      console.log("JWT token:", jwtToken);
       setToken(jwtToken);
     } catch (error: any) {
       console.error("Error calling function:", error.code, error.message);
@@ -50,9 +51,13 @@ export default function ShareQRCode({ artist }: Props) {
       />
 
       {token && (
-        <Text style={{ marginTop: 20, color: "green" }}>
-          JWT Token: {token}
-        </Text>
+        <View style={{ marginTop: 20, alignItems: "center" }}>
+          <QRCode 
+            value={token} 
+            size={250}
+            color={colors.primary}
+          />
+        </View>
       )}
     </View>
   );
