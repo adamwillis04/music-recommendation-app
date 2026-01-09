@@ -10,19 +10,18 @@ import { colors } from "../../styles/colors";
 type Props = {
   artist?: Artist | undefined;
 };
-
+//Handle location not being provided (permission stuff)
 export default function ShareQRCode({ artist }: Props) {
-  const { profile, getCurrentLocation } = useProfile();
+  const { getCurrentLocation } = useProfile();
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const createInteractionCallable = httpsCallable(functions, "createInteraction");
 
   const handleGenerateToken = async () => {
+    setLoading(true);
     const loc = await getCurrentLocation();
     if (!artist || !loc) return;
-    setLoading(true);
     
-
     try {
       const result = await createInteractionCallable({
         mbid: artist.mbid,
