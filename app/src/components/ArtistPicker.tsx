@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function ArtistPicker({ artist, onSelect, showVerified, isSearch, placeholder }: Props) {
-  const [searchStr, setSearchStr] = useState("")
+  const [searchStr, setSearchStr] = useState(artist?.name || "")
   const [results, setResults] = useState<Artist[]>([])
 
   useEffect(() => {

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { View, Text, Button, } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, Button, ActivityIndicator, } from "react-native";
 import { BarcodeScanningResult, CameraView, useCameraPermissions } from "expo-camera";
 import { useProfile } from "../../contexts/ProfileContext";
 import { httpsCallable } from "firebase/functions";
@@ -8,22 +8,36 @@ import { Artist } from "../../types/artist";
 import { useNavigation } from "@react-navigation/native";
 import { FanStackParamList } from "../../navigation/FanNavigator";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useForegroundPermissions } from "expo-location"
+import { colors } from "../../styles/colors";
 
 export default function ScanQRCode() {
-  const [permission, requestPermission] = useCameraPermissions();
-  const {getCurrentLocation} = useProfile()
-  const [loading, setLoading] = useState(false);
+  const [camStatus, requestCamPermission] = useCameraPermissions();
+  const [locStatus, requestLocPermission] = useForegroundPermissions();
   const [scanned, setScanned] = useState(false);
+  const { getCurrentLocation } = useProfile()
   const completeInteractionCallable = httpsCallable(functions, "completeInteraction");
   const navigation = useNavigation<NativeStackNavigationProp<FanStackParamList>>()
 
+  useEffect(() => {
+    const getPermissions = async () => {
+      await requestLocPermission();
+      await requestCamPermission();
+    } 
+    
+    getPermissions()
+  }, []);
+
   const handleBarCodeScanned = async (scanningResult: BarcodeScanningResult) => {
-    setLoading(true)
     setScanned(true)
     const token = scanningResult.data
-    const loc = await getCurrentLocation()
+    const loc = await getCurrentLocation();
 
-    if (!token || !loc) return;
+    if (!token || !loc) {
+      console.error("Missing token or location data.")
+      setScanned(false)
+      return;
+    }
 
     try {
       const result = await completeInteractionCallable({
@@ -34,32 +48,30 @@ export default function ScanQRCode() {
       const {artistObj} = result.data as {artistObj: Artist};
       navigation.navigate("FanArtist", {artist: artistObj})
     } catch (error: any) {
-      console.error("Error calling function:", error.code, error.message);
-      setScanned(false)
-      setLoading(false)
-    } finally {
-      setLoading(false);
+      console.error("Error completing interaction:", error.code, error.message);
+      setScanned(false);
     }
   };
 
-  if (!permission) {
-    return(
-      <Text>Asking Permission...</Text>
-    )
-  }
-
-  if (!permission.granted) {
+  if (!camStatus || !locStatus || !camStatus.granted || !locStatus.granted) {
     return (
-      <View style={{flex:1}}>
-        <Text>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} title="grant permission" />
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Location and Camera permissions needed.</Text>
       </View>
     );
+  }
+  
+  if (scanned) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </View>
+    )
   }
 
   return (
     <View style={{flex:1}}>
-      {!scanned && !loading && (
+      {!scanned && (
         <CameraView
           style={{flex:1}}
           onBarcodeScanned={handleBarCodeScanned}

@@ -104,8 +104,6 @@ export const ProfileProvider: React.FC<Props> = ({ children }) => {
   };
 
   const getCurrentLocation = async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') return null;
     const loc = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
     return { lat: loc.coords.latitude, lng: loc.coords.longitude };
   };
