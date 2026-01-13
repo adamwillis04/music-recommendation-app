@@ -20,7 +20,7 @@ export default function ArtistPicker({ artist, onSelect, showVerified, isSearch,
 
   useEffect(() => {
     const search = async () => {
-      if (searchStr.length<1) {
+      if (searchStr.length<2) {
         setResults([])
         return
       }
@@ -50,6 +50,7 @@ export default function ArtistPicker({ artist, onSelect, showVerified, isSearch,
     <View style={styles.container}>
       <TextInput
         placeholder={placeholder}
+        placeholderTextColor={colors.black}
         value={searchStr}
         onChangeText={text => {setSearchStr(text)}}
         style={styles.input}
