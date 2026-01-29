@@ -5,11 +5,13 @@ import { useAuth } from "./AuthContext"
 import { db } from "../services/config"
 import { Artist } from "../types/artist"
 import * as Location from "expo-location"
+import { Reward } from "../types/reward"
 
 interface ProfileContextType {
   profile: Profile | null
   loading: boolean
   likedArtists: Artist[] 
+  rewards: Reward[]
   like: (artist: Artist) => Promise<void>
   unlike: (artist: Artist) => Promise<void>
   updateProfile: (updates: any) => void
@@ -32,12 +34,14 @@ export const ProfileProvider: React.FC<Props> = ({ children }) => {
   const { currentUser } = useAuth()
   const [profile, setProfile] = useState<Profile | null>(null)
   const [likedArtists, setLikedArtists] = useState<Artist[]>([])
+  const [rewards, setRewards] = useState<Reward[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (!currentUser) {
         setProfile(null)
         setLikedArtists([])
+        setRewards([])
         setLoading(false)
         return
     }
@@ -48,23 +52,34 @@ export const ProfileProvider: React.FC<Props> = ({ children }) => {
         const result = await getDoc(doc(db, "users", currentUser.uid))
         setProfile(result.exists() ? (result.data() as Profile) : null)
     }
-      
+
     loadProfile()
-
+      
     const likedRef = collection(db, "users", currentUser.uid, "likedArtists")
+    const rewardsRef = collection(db, "users", currentUser.uid, "rewards")
 
-    const unsubscribe = onSnapshot(likedRef, (snapshot) => {
-      const artists: Artist[] = []
-      snapshot.forEach(doc => {
-        artists.push({
-          mbid: doc.id,
-          ...(doc.data() as Omit<Artist, "mbid">)})
-        })
+    const unsubscribeLiked = onSnapshot(likedRef, snapshot => {
+      const artists: Artist[] = snapshot.docs.map(doc => ({
+        mbid: doc.id,
+        ...(doc.data() as Omit<Artist, "mbid">),
+      }))
       setLikedArtists(artists)
-      setLoading(false)
     })
 
-    return unsubscribe
+    const unsubscribeRewards = onSnapshot(rewardsRef, snapshot => {
+      const rewards: Reward[] = snapshot.docs.map(doc => ({
+        id: doc.id, // or rewardId, etc — match your type
+        ...(doc.data() as Omit<Reward, "id">),
+      }))
+      setRewards(rewards)
+    })
+
+    setLoading(false)
+
+    return () => {
+      unsubscribeLiked()
+      unsubscribeRewards()
+    }
   }, [currentUser])
 
   const like = async (artist: Artist) => {
@@ -112,6 +127,7 @@ export const ProfileProvider: React.FC<Props> = ({ children }) => {
     profile,
     loading,
     likedArtists,
+    rewards,
     like,
     unlike,
     updateProfile,
